@@ -1,5 +1,15 @@
 <main>
-  <h1>Zoom Angular Web SDK</h1>
-
+  <img src="assets/images/unruptlogo.png"/>
+  <span>Name:</span>
+  <input type="text" [(ngModel)]="userName" placeholder="user name"/>
+  <span>Meeting:</span>
+  <input type="text" [(ngModel)]="meetingNumber" placeholder="meeting number"/>
+  <span>Password:</span>
+  <input type="password" [(ngModel)]="meetingPassword"/>
+  <select [(ngModel)]="role">
+    <option value="0">Attendee</option>
+    <option value="1">Host</option>
+    <option value="5">Assistant</option>
+  </select>
   <button (click)="getSignature()">Join Meeting</button>
 </main>

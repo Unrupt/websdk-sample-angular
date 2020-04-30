@@ -12,17 +12,25 @@ ZoomMtg.prepareJssdk();
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
+
+
 export class AppComponent implements OnInit {
 
+  API_KEY = '52i078P_RmWtImPj1RKubQ';
+  GENERATE_SIGNATURE_URL ='https://code1i2h4g.execute-api.us-east-2.amazonaws.com/prod/unruptzoomsig';
+
+
   // setup your signature endpoint here: https://github.com/zoom/websdk-sample-signature-node.js
-  signatureEndpoint = ''
-  apiKey = ''
-  meetingNumber = 123456789
-  role = 0
-  leaveUrl = 'http://localhost:4200'
-  userName = 'Angular'
-  userEmail = ''
-  passWord = ''
+  signatureEndpoint = this.GENERATE_SIGNATURE_URL;
+  apiKey = this.API_KEY;
+  meetingNumber: string;
+  role = 0;
+  leaveUrl = 'http://localhost:4200';
+  userName = 'Angular';
+  userEmail = '';
+  meetingPassword = '';
 
   constructor(public httpClient: HttpClient, @Inject(DOCUMENT) document) {
 
@@ -33,10 +41,8 @@ export class AppComponent implements OnInit {
   }
 
   getSignature() {
-    this.httpClient.post(this.signatureEndpoint, {
-	    meetingNumber: this.meetingNumber,
-	    role: this.role
-    }).toPromise().then((data: any) => {
+    this.httpClient.get(`${this.signatureEndpoint}?meetingNumber=${this.meetingNumber}&role=${this.role}`)
+      .toPromise().then((data: any) => {
       if(data.signature) {
         console.log(data.signature)
         this.startMeeting(data.signature)
@@ -64,7 +70,7 @@ export class AppComponent implements OnInit {
           userName: this.userName,
           apiKey: this.apiKey,
           userEmail: this.userEmail,
-          passWord: this.passWord,
+          passWord: this.meetingPassword,
           success: (success) => {
             console.log(success)
           },
